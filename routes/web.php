@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/aa', function () {
     return view('welcome');
 });
+Route::get('/s', function () {
+    return view('admin.dashboard');
+});
+Route::get('/admin_users', function () {
+    return view('admin.layout.users');
+});
+Route::get('/dashboard', function () {
+    return view('admin.includes.app');
+});
+Route::view('/admin_users', 'admin.layout.users')->name('view_users');;
+Route::view('/dashboard', 'admin.includes.app')->name('dashboard');
