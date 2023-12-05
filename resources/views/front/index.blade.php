@@ -172,7 +172,7 @@
 		</div>
 	</section> --}}
 
-	@include('front.includes.messeges')
+	{{-- @include('front.includes.messeges') --}}
 
 
 
