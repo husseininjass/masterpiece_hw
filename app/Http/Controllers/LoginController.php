@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Hash;
+use App\Models\User;
 use App\Models\users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -31,17 +32,18 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+        
         $email = $request->input('email');
         $password = $request->input('password');
-    
-        $user = users::where('email', $email)->first();
-    
-        if ($user && password_verify($password, $user->password)) {
+
+        $user = Users::where('email', $email)->first();
+        
+        if ($user && Hash::check($password, $user->password)) {
             return redirect('/');
         } else {
             return back()->withErrors(['email' => 'Invalid email or password']);
         }
+        
     }
     
 
@@ -51,7 +53,7 @@ class LoginController extends Controller
 
     public function signup()
     {
-        return view('front.signup');
+        return view('front.regstr');
     }
 
     public function signup_submit(Request $request)
