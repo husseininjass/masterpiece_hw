@@ -119,3 +119,10 @@ Route::get('/blog', function () {
 Route::get('/single-blog', function () {
     return view('front.single-blog');
 });
+
+Route::get('/usersignup', function () {
+    return view('front.regstr');
+});
+
+
+Route::post('/store_signup', [LoginController::class, 'store_signup'])->name('store_signup');

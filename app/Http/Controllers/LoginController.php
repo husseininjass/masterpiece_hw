@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Database\QueryException;
 
 class LoginController extends Controller
 {
@@ -23,25 +23,31 @@ class LoginController extends Controller
         return view('front.login');
     }
 
-    public function login_submit(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
 
-        $credential = [
-            'email' => $request->email,
-            'password' => $request->password,
-            'status' => 1
-        ];
-        // guard('users')->
-        if (Auth::attempt($credential)) {
-            return redirect()->route('home_view_Categories')->with('success', 'add user is successfully.');
+
+
+    public function login_submit(Request $request){
+        $validator = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        $email = $request->input('email');
+        $password = $request->input('password');
+    
+        $user = users::where('email', $email)->first();
+    
+        if ($user && password_verify($password, $user->password)) {
+            return redirect('/');
         } else {
-            return redirect()->route('customer_login')->with('error', 'Information is not correct!');
+            return back()->withErrors(['email' => 'Invalid email or password']);
         }
     }
+    
+
+
+
+
 
     public function signup()
     {
@@ -162,4 +168,57 @@ class LoginController extends Controller
         return redirect()->route('customer_login')->with('success', 'Password is reset successfully');
     }
 
+
+
+    public function store_signup (Request $request){
+       
+        $data_input = $request->validate([
+            'fname' => 'required|alpha|min:3|max:255',
+            'lname' => 'required|alpha|min:3|max:255',
+            'email' => 'required|email',
+            'password' => 'required|max:255|min:8',
+            'c-password' => 'required|same:password',
+            'phone' => 'required|numeric|digits_between:10,13',
+            'city' => 'required', 
+            'address' => 'required', 
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+
+        // try{
+
+        
+        $user_data = new users(); 
+        $user_data->firstName = $data_input['fname'];
+        $user_data->lastName = $data_input['lname'];
+        $user_data->email = $data_input['email'];
+        $user_data->phoneNumber = $data_input['phone'];
+        $user_data->city = $data_input['city'];
+        $user_data->address = $data_input['address'];
+        $user_data->password = $data_input['password'];
+        if ($request->hasFile('photo')) {
+            $data_input = $request->file('photo');
+            $filename =  $data_input->getClientOriginalName();
+            $data_input->move(public_path('assets/images'), $filename);
+
+            $user_data->photo = $filename;
+    
+        }
+       
+        $user_data->save();
+        return(redirect('/login'))->with('success', 'You are now one of our members !');
+    
+
+    // catch (QueryException $e){
+
+    //     return back()->withErrors(['email' => 'The email already exist']);
+
+    // }
+        
+
+        
+    }
+
 }
+
+

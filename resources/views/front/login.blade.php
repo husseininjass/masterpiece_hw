@@ -32,11 +32,24 @@
 						<div class="hover">
 							<h4>New to our website?</h4>
 							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="primary-btn" href="registration.html">Create an Account</a>
+							<a class="primary-btn" href="/usersignup">Create an Account</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
+					@if (\Session::has('success'))
+							<div class="alert alert-success " id="success-alert">
+								<p>{{ \Session::get('success') }}</p>
+							</div>
+			 
+							<script>
+								var milliseconds = 3500;
+								setTimeout(function () {
+								document.getElementById('success-alert').remove();
+								}, milliseconds);
+								</script>
+						@endif
+						
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
 						<form class="row login_form" action="{{ route('customer_login_submit') }}" method="post" id="contactForm" novalidate="novalidate" enctype="multipart/form-data">
@@ -47,6 +60,10 @@
 							@if($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                             @endif
+
+							
+
+						
 							<div class="col-md-12 form-group">
 								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
