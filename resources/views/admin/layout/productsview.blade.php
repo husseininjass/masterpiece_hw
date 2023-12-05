@@ -29,7 +29,7 @@ Products
 
             <a href="{{ route('admin_Products_add')  }}">
                 <button type="button" class="button">
-                    <span class="button__text">Add Category</span>
+                    <span class="button__text">Add Product</span>
                     <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
                 </button>
             </a>
@@ -42,6 +42,7 @@ Products
                         <th scope="col" style="text-align: center" >#</th>
                         <th scope="col" style="text-align: center" >Photo</th>
                         <th scope="col" style="text-align: center">Products Name</th>
+                        <th scope="col" style="text-align: center">category Name</th>
                         <th scope="col" colspan="2" style="text-align: center">Action</th>
                     
                         
@@ -63,8 +64,11 @@ Products
                             @endif
                         </td>
                         <td class="colorUsers" style="text-align: center">{{ $row->product_Name }}</td>
-                    
+                        
+                            <td class="colorUsers" style="text-align: center">{{$row->category->category_Name}}</td>
+                       
                         <td style="text-align: center"><a class="btn btn-square btn-outline-primary m-2" href="{{ route('admin_Products_edit',$row->product_id ) }}"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                        
                         <td style=" display: flex;">
                             
                             <form method="POST" action="{{ route('admin_Products_delete',$row->product_id) }}">

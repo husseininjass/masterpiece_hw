@@ -16,6 +16,12 @@ class ProductsController extends Controller
     public function index()
     {
         $products = products::all(); 
+        $test = products::find(1);
+        $categoryId = $test->category->category_id;
+        $categoryName = $test->category->category_Name;
+    
+        
+    
         return view('admin.layout.productsview', ['products' => $products]);
     }
 

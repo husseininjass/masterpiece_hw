@@ -34,6 +34,6 @@ class products extends Model
     // }
     public function category(): belongsTo
     {
-        return $this->belongsTo(categories::class, 'category_id', 'category_Name');
+        return $this->belongsTo(categories::class, 'category_id');
     }
 }

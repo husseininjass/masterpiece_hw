@@ -21,6 +21,13 @@ class UsersController extends Controller
         $users = users::all(); // Replace with your actual data retrieval logic
         return view('admin.layout.users', ['users' => $users]);
     }
+    public function login()
+    {
+        // $view_users = Users::get();
+        // return view('admin.layout.users', compact('view_users'));
+        $users = users::all(); // Replace with your actual data retrieval logic
+        return view('admin.layout.users', ['users' => $users]);
+    }
 
     public function change_status($id)//to check if is active or not
     {

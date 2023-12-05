@@ -92,7 +92,7 @@ Users
                     
                     
 
-                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
                 </form>
             </div>
         </div>

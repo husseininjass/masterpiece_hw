@@ -24,4 +24,8 @@ class users extends Model
         'status',
         
     ];
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }

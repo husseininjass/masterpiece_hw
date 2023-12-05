@@ -2,6 +2,8 @@
 
 use App\Models\products;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\homeController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
@@ -67,26 +69,53 @@ Route::post('/admin/Products/update/{id}', [ProductsController::class, 'update']
 Route::delete('/admin/Products/delete/{id}', [ProductsController::class, 'destroy'])->name('admin_Products_delete');//admin_Products_delete
 Route::get('/admin/Products/change-stock/{id}', [ProductsController::class, 'change_stock'])->name('admin_Products_change_stock');
 
-Route::get('/x/{id}',function($id){
+// Route::get('/x/{id}',function($id){
     // $product = products::find($id); 
     // $category = $product->category->category_Name;
 
     // $x = products::findOrfail($id);
     // dd($category);
-    $product = products::findOrfail($id);
+    // $product = products::findOrfail($id);
 
-    if ($product) {
-        $category = $product->category;
-        if ($category) {
-            $categoryName = $category->category_Name;
-            dd($categoryName);
-        } else {
-            dd('Product is not associated with any category.');
-        }
-    } else {
-        dd('Product not found.');
-    }
+    // if ($product) {
+    //     $category = $product->category;
+    //     if ($category) {
+    //         $categoryName = $category->category_Name;
+    //         dd($categoryName);
+    //     } else {
+    //         dd('Product is not associated with any category.');
+    //     }
+    // } else {
+    //     dd('Product not found.');
+    // }
     
-});
+// });
 // $test = $products->category->category_Name;
 //         dd($test);
+
+
+
+
+// frontend
+
+Route::get('/', [homeController::class, 'index'])->name('home_view_Categories');
+Route::get('/categories', [homeController::class, 'show_categories'])->name('all_Categories');
+Route::get('/categories/products/{id}', [homeController::class, 'CategoriesToProducts'])->name('Categories_products');
+Route::get('/categories/products', function () {
+    return view('front.Category')->name('categ');
+});
+Route::get('/singleproduct/{id}', [homeController::class, 'single_product'])->name('single_product');
+Route::get('/login', [LoginController::class, 'customLogin'])->name('login');
+
+Route::get('/login', [LoginController::class, 'login'])->name('customer_login');
+Route::post('/customer/login/submit', [LoginController::class, 'login_submit'])->name('customer_login_submit');
+Route::get('/customer/logout', [LoginController::class, 'logout'])->name('customer_logout');
+Route::get('/signup', [LoginController::class, 'signup'])->name('customer_signup');
+Route::post('/signup-submit', [LoginController::class, 'signup_submit'])->name('customer_signup_submit');
+
+Route::get('/blog', function () {
+    return view('front.blog');
+});
+Route::get('/single-blog', function () {
+    return view('front.single-blog');
+});
